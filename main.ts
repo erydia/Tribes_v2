@@ -1,15 +1,24 @@
 document.addEventListener('DOMContentLoaded', () => {
 
+    // interfejsy prefiksujmy I, oraz piszmy z wielkiej litery
+    // typy - bez literki I, tylko wielką literą, mozesz prefixować T jeśli chcesz
+    // klasy z C - spoko, w innych jezykach tak sie pisało 
+    // UpperCamelCase dla klas i serwisów
+    // nadawanie typów -> spacja po dwukropku\
+    // 
+
+    type Something = number | string;
+
     // Zmienne które zajmują się przechowywaniem wartości czasu.
-    let time:number = 0;
-    let seconds:number | string = 0;
-    let minutes:number | string = 0;
-    let hours:number | string = 0;
+    let time: number = 0;
+    let seconds: Something = 0;
+    let minutes: number | string = 0;
+    let hours: number | string = 0;
 
     // Pobieranie elementów reprezentujących wyniki z drzewa DOM. 
-    const secondEl = document.querySelector('.second');                                 // <----   :Element ?
-    const minuteEl = document.querySelector('.minute');
-    const hourEl = document.querySelector('.hour');
+    const secondEl: HTMLElement = document.querySelector('.second'); // :HTMLElement
+    const minuteEl: HTMLElement = document.querySelector('.minute');
+    const hourEl: HTMLElement = document.querySelector('.hour');
 
     // Zegar który tyka co 1000ms. 
     const clock = setInterval(() => { 
@@ -35,9 +44,9 @@ document.addEventListener('DOMContentLoaded', () => {
             hours = `0${hours}`;
         }; 
         // Aktualizacja czasu w htmlu.
-        secondEl.innerText = seconds;                       // <---- Jak to obejść?
-        minuteEl.innerText = minutes;
-        hourEl.innerText = hours;
+        secondEl.innerText = String(seconds);                       //  Jak to obejść? -> explicit coertion -> jawne rzutowanie 
+        minuteEl.innerText = String(minutes);
+        hourEl.innerText = String(hours);
     },1000);
 
     interface materialsObject {
@@ -66,23 +75,23 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // Pojemnośc magazynów.
-    const storageCapacity:storageCapacity  = {
+    const storageCapacity: storageCapacity  = {
         wood: 20,
         stone: 20,
     };
 
     // Zmienne, które przechowuje ilość robotników.
-    let worker:number = 5;
+    let worker: number = 5;
     // Zmienne, które przechowują maksymalną ilość robotników.
-    const maxWorker:number = 10;
+    const maxWorker: number = 10;
 
     // Pobieranie elementów reprezentujących wyniki z drzewa DOM.
-    const woodEl = document.querySelector('.wood');
-    const stoneEl = document.querySelector('.stone');
-    const goldEl = document.querySelector('.gold');
-    const workerEl = document.querySelector('.worker');
-    const maxWoodEl = document.querySelector('.max-wood');
-    const maxStoneEl = document.querySelector('.max-stone');
+    const woodEl: HTMLElement = document.querySelector('.wood');
+    const stoneEl: HTMLElement = document.querySelector('.stone');
+    const goldEl: HTMLElement = document.querySelector('.gold');
+    const workerEl: HTMLElement = document.querySelector('.worker');
+    const maxWoodEl: HTMLElement = document.querySelector('.max-wood');
+    const maxStoneEl: HTMLElement = document.querySelector('.max-stone');
 
     // Zwiększanie się ilości drewna i kamienia co 1000ms.
     const intervalWoodStoneIncome = setInterval(() => {
@@ -97,7 +106,7 @@ document.addEventListener('DOMContentLoaded', () => {
             if (materials.wood >= storageCapacity.wood) { 
                 materials.wood = storageCapacity.wood;
             };
-            woodEl.innerText = materials.wood; 
+            woodEl.innerText = String(materials.wood); 
         }    
         // Zwiększenie ilości kamienia gdy jest możliwe jego wyprodukowanie.
         if (materials.stone < storageCapacity.stone) {
@@ -106,7 +115,7 @@ document.addEventListener('DOMContentLoaded', () => {
             if (materials.stone >= storageCapacity.stone) { 
                 materials.stone = storageCapacity.stone;
             }; 
-            stoneEl.innerText  = materials.stone;
+            stoneEl.innerText  = String(materials.stone);
         };
     },1000);
 
@@ -118,7 +127,7 @@ document.addEventListener('DOMContentLoaded', () => {
         };
         // Zwiększenie się ilości złota.
         materials.gold = materials.gold + incomeMaterials.gold;
-        goldEl.innerText = materials.gold; 
+        goldEl.innerText = String(materials.gold); 
     },3000);
 
     // Dodawanie określonych bonusów po wybudowaniu budynków.
@@ -136,16 +145,16 @@ document.addEventListener('DOMContentLoaded', () => {
         } else if (value === 'newWorker') {
             if (worker < maxWorker) {
                 worker += 1;
-                workerEl.innerText = worker;
+                workerEl.innerText = String(worker);
             };
         // Powiększenie magazynu drewna.    
         } else if (value === 'enlargingTheWarehouseWood') {
             storageCapacity.wood += 10;
-            maxWoodEl.innerText = storageCapacity.wood;
+            maxWoodEl.innerText = String(storageCapacity.wood);
         // Powiększenie magazynu kamienia.    
         } else if (value === 'enlargingTheWarehouseStone') {
             storageCapacity.stone += 10;
-            maxStoneEl.innerText = storageCapacity.stone;
+            maxStoneEl.innerText = String(storageCapacity.stone);
         // Zwycięstwo.    
         } else if (value === 'victory') {
             victory();
@@ -172,7 +181,7 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
     // Pobieranie elementów reprezentujących wyniki z drzewa DOM. 
-    const timerEl = document.querySelector('.timer');
+    const timerEl: HTMLElement = document.querySelector('.timer');
     const buildingBoxEl = document.querySelector('.building-box');
 
     // Wybuduj budynek.
@@ -260,9 +269,12 @@ document.addEventListener('DOMContentLoaded', () => {
         bonus: string;
     }
 
+    type Buildings = building[];
+
     // Zbiór informacji na temat budynków.                    
-    const buildings = [{                                 // Czy tutaj powinnam przerobić strukture by podpiąć pod każdy budynek jeden interface? 
-        name: 'sawmill',                                 // Czy jest jakieś inne rozwiązanie?  
+    // const buildings: Buildings  = [{                
+    const buildings: building[]  = [{                    // Czy tutaj powinnam przerobić strukture by podpiąć pod każdy budynek jeden interface? -> nie, wystarczy dodać [] jako ze to tablica
+        name: 'sawmill',                                 // Czy jest jakieś inne rozwiązanie? -> zrobienie nowego typu który ma w sobie []
         wood: 20,                                        // Czy pisanie js'a w ts'cie różni się jakoś? Prócz nadawania typów itp. Zastanawiam się czy inaczej powinnam podchodzić do kodu
         stone: 0,                                           
         gold: 3,

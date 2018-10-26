@@ -106,13 +106,20 @@ parcelRequire = (function (modules, cache, entry, globalName) {
   return newRequire;
 })({"main.ts":[function(require,module,exports) {
 document.addEventListener('DOMContentLoaded', function () {
+  // interfejsy prefiksujmy I, oraz piszmy z wielkiej litery
+  // typy - bez literki I, tylko wielką literą, mozesz prefixować T jeśli chcesz
+  // klasy z C - spoko, w innych jezykach tak sie pisało 
+  // UpperCamelCase dla klas i serwisów
+  // nadawanie typów -> spacja po dwukropku\
+  // 
   // Zmienne które zajmują się przechowywaniem wartości czasu.
   var time = 0;
   var seconds = 0;
   var minutes = 0;
   var hours = 0; // Pobieranie elementów reprezentujących wyniki z drzewa DOM. 
 
-  var secondEl = document.querySelector('.second');
+  var secondEl = document.querySelector('.second'); // :HTMLElement
+
   var minuteEl = document.querySelector('.minute');
   var hourEl = document.querySelector('.hour'); // Zegar który tyka co 1000ms. 
 
@@ -144,9 +151,10 @@ document.addEventListener('DOMContentLoaded', function () {
 
     ; // Aktualizacja czasu w htmlu.
 
-    secondEl.innerText = seconds;
-    minuteEl.innerText = minutes;
-    hourEl.innerText = hours;
+    secondEl.innerText = String(seconds); //  Jak to obejść? -> explicit coertion -> jawne rzutowanie 
+
+    minuteEl.innerText = String(minutes);
+    hourEl.innerText = String(hours);
   }, 1000); //Ilość surowców.
 
   var materials = {
@@ -193,7 +201,7 @@ document.addEventListener('DOMContentLoaded', function () {
       }
 
       ;
-      woodEl.innerText = materials.wood;
+      woodEl.innerText = String(materials.wood);
     } // Zwiększenie ilości kamienia gdy jest możliwe jego wyprodukowanie.
 
 
@@ -205,7 +213,7 @@ document.addEventListener('DOMContentLoaded', function () {
       }
 
       ;
-      stoneEl.innerText = materials.stone;
+      stoneEl.innerText = String(materials.stone);
     }
 
     ;
@@ -220,7 +228,7 @@ document.addEventListener('DOMContentLoaded', function () {
     ; // Zwiększenie się ilości złota.
 
     materials.gold = materials.gold + incomeMaterials.gold;
-    goldEl.innerText = materials.gold;
+    goldEl.innerText = String(materials.gold);
   }, 3000); // Dodawanie określonych bonusów po wybudowaniu budynków.
 
   var addBonus = function addBonus(value) {
@@ -234,16 +242,16 @@ document.addEventListener('DOMContentLoaded', function () {
     } else if (value === 'newWorker') {
       if (worker < maxWorker) {
         worker += 1;
-        workerEl.innerText = worker;
+        workerEl.innerText = String(worker);
       }
 
       ; // Powiększenie magazynu drewna.    
     } else if (value === 'enlargingTheWarehouseWood') {
       storageCapacity.wood += 10;
-      maxWoodEl.innerText = storageCapacity.wood; // Powiększenie magazynu kamienia.    
+      maxWoodEl.innerText = String(storageCapacity.wood); // Powiększenie magazynu kamienia.    
     } else if (value === 'enlargingTheWarehouseStone') {
       storageCapacity.stone += 10;
-      maxStoneEl.innerText = storageCapacity.stone; // Zwycięstwo.    
+      maxStoneEl.innerText = String(storageCapacity.stone); // Zwycięstwo.    
     } else if (value === 'victory') {
       victory();
     }
@@ -348,6 +356,7 @@ document.addEventListener('DOMContentLoaded', function () {
       el.classList.add('opacity-05');
     });
   }; // Zbiór informacji na temat budynków.                    
+  // const buildings: Buildings  = [{                
 
 
   var buildings = [{
@@ -436,8 +445,8 @@ document.addEventListener('DOMContentLoaded', function () {
   buttonStoneWarehouseEl.addEventListener('click', function () {
     constructionBuilding(buildings[6]);
   });
-}); // :Element ?
-},{}],"node_modules/parcel-bundler/lib/builtins/hmr-runtime.js":[function(require,module,exports) {
+});
+},{}],"node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
 var global = arguments[3];
 var OVERLAY_ID = '__parcel__error__overlay__';
 var OldModule = module.bundle.Module;
@@ -464,7 +473,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "59666" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "61061" + '/');
 
   ws.onmessage = function (event) {
     var data = JSON.parse(event.data);
@@ -606,5 +615,5 @@ function hmrAccept(bundle, id) {
     return hmrAccept(global.parcelRequire, id);
   });
 }
-},{}]},{},["node_modules/parcel-bundler/lib/builtins/hmr-runtime.js","main.ts"], null)
+},{}]},{},["node_modules/parcel-bundler/src/builtins/hmr-runtime.js","main.ts"], null)
 //# sourceMappingURL=/main.c39d6dcf.map
